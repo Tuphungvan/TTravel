@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo doanh thu</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Báo cáo doanh thu</h1>
+
+        {{#if message}}
+            <div class="alert alert-warning">{{message}}</div>
+        {{else}}
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Tháng</th>
+                        <th>Năm</th>
+                        <th>Doanh thu</th>
+                        <th>Số lượng đơn hàng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each revenueReports}}
+                        <tr>
+                            <td>{{this.month}}</td>
+                            <td>{{this.year}}</td>
+                            <td>{{formatPrice this.totalRevenue}}</td>
+                            <td>{{this.totalOrders}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        {{/if}}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

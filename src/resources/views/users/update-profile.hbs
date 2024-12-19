@@ -1,0 +1,150 @@
+<section class="profile-update">
+    <h1 class="text-center">Cập nhật hồ sơ của tôi</h1>
+
+    <form action="/profile/update-profile" method="POST">
+        <!-- Hiển thị thông báo lỗi nếu có -->
+        {{#if errorMessage}}
+            <div class="alert alert-danger">
+                {{errorMessage}}
+            </div>
+        {{/if}}
+
+        <div class="form-group">
+            <label for="username">Họ và tên</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{user.username}}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{user.email}}" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input type="password" class="form-control" id="password" name="password">
+            <small class="form-text text-muted">Để trống nếu bạn không muốn thay đổi mật khẩu.</small>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">số điện thoại</label>
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="{{user.phoneNumber}}" required>
+        </div>
+        <div class="form-group">
+            <label for="address">địa chỉ</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{user.address}}" required>
+        </div>
+
+        <button type="submit" class="btn submit-btn">cập nhật</button>
+    </form>
+</section>
+<style>
+    section.profile-update{
+        margin-top: 150px;
+        margin-bottom: 100px;
+    }
+.profile-update {
+    width: 100%;
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề */
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Định dạng các form-group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 1rem;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #fff;
+}
+
+small {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+/* Nút submit */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Nút cập nhật */
+.submit-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+
+/* Nút quay lại */
+.back-btn {
+    background-color: #6c757d;
+    color: white;
+    margin-top: 20px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Thông báo lỗi */
+.alert {
+    padding: 15px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .profile-update {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+}
+
+</style>

@@ -1,0 +1,170 @@
+<main class="cart-container">
+    <h1 class="cart-title">Giỏ Hàng</h1>
+    {{#if cart.items.length}}
+        <div class="cart-items">
+            {{#each cart.items}}
+                <div class="cart-item">
+                    <img src="{{this.image}}" alt="{{this.name}}" />
+                    <div class="cart-item-info">
+                        <h3 class="item-name">{{this.name}}</h3>
+                        <p class="item-price">Giá bán: {{formatPrice this.price}} </p>
+                        <button class="remove-btn" data-slug="{{this.slug}}">Xóa</button>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+        <div class="cart-summary">
+            <h3 class="total">Tổng Tiền: {{formatPrice total}} </h3>
+            <form action="/checkout" method="GET">
+                <button type="submit" class="checkout-btn">Đặt Ngay</button>
+            </form>
+        </div>
+    {{else}}
+        <p class="empty-cart">Giỏ hàng của bạn hiện đang trống.</p>
+    {{/if}}
+</main>
+
+<style>
+
+main.cart-container {
+    margin-top: 150px; 
+    margin-bottom: 100px;
+}
+/* Container tổng */
+.cart-container {
+    min-height: 500px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề giỏ hàng */
+.cart-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Danh sách item */
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Từng item */
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Hình ảnh sản phẩm */
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Thông tin sản phẩm */
+.cart-item-info {
+    flex-grow: 1;
+}
+
+/* Tên sản phẩm */
+.item-name {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Giá sản phẩm */
+.item-price {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Nút xóa */
+.remove-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover {
+    background-color: #ff1a1a;
+}
+
+/* Tổng tiền */
+.cart-summary {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.total {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* Nút thanh toán */
+.checkout-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.checkout-btn:hover {
+    background-color: #218838;
+}
+
+/* Khi giỏ hàng trống */
+.empty-cart {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 20px;
+}
+</style>
+<script>
+ document.querySelectorAll('.remove-btn').forEach(button => {
+    button.addEventListener('click', async (e) => {
+        const slug = e.target.dataset.slug;
+        try {
+            const response = await fetch(`/cart/remove/${slug}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const data = await response.json();
+            if (data.success) {
+                // Reload the cart page or update the cart view
+                window.location.reload();
+            } else {
+                alert(data.message);
+            }
+        } catch (err) {
+            console.error('Error:', err);
+            alert('Có lỗi xảy ra khi xóa tour khỏi giỏ hàng');
+        }
+    });
+});
+</script>

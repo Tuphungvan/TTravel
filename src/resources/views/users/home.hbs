@@ -1,0 +1,485 @@
+<style>
+    .swiper-button-next, .swiper-button-prev {
+    display: none;
+}
+     .btn {
+    display: inline-block;
+    margin-top: 1rem;
+    background: var(--orange);
+    color: #fff;
+    padding: 0.8rem 3rem;
+    border: 0.2rem solid var(--orange);
+    cursor: pointer;
+    font-size: 1.7rem;
+  }
+
+  .btn:hover {
+    background: rgba(255, 165, 0, 0.2);
+    color: var(--orange);
+  }
+
+     .heading {
+    text-align: center;
+    padding: 2.5rem 0;
+  }
+
+  .heading span {
+    font-size: 3.5rem;
+    background: rgba(255, 165, 0, 0.2);
+    color: var(--orange);
+    border-radius: 0.5rem;
+    padding: 0.2rem 1rem;
+  }
+
+     .home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    position: relative;
+    z-index: 0;
+  }
+
+  .home .content {
+    text-align: center;
+  }
+
+  .home .content h3 {
+    font-size: 4.5rem;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
+  }
+
+  .home .content p {
+    font-size: 2.5rem;
+    color: #fff;
+    padding: 0.5rem 0;
+  }
+
+  .home .video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .home .controls {
+    padding: 1rem;
+    border-radius: 5rem;
+    background: rgba(0, 0, 0, 0.7);
+    position: relative;
+    top: 10rem;
+  }
+
+  .home .controls .vid-btn {
+    height: 2rem;
+    width: 2rem;
+    display: inline-block;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    margin: 0 0.5rem;
+  }
+
+  .home .controls .vid-btn.active {
+    background: var(--orange);
+  }
+
+  .packages {
+        padding: 40px 0;
+        background-color: white;
+    }
+
+.packages .box-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        padding: 0 20px;
+
+    }
+
+.packages .tour-card {
+        background-color: #fff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 390px;
+        transition: transform 0.3s ease;
+        margin-bottom: 20px;
+    }
+
+.packages .tour-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+.packages .tour-card-body {
+        padding: 20px;
+    }
+
+.packages .tour-title {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+.packages .tour-price {
+        font-size: 1.4rem;
+        color: #ff6600;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+.packages .add-to-cart .btn {
+        display: inline-block;
+        background-color: #ff6600;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+    }
+
+.packages .add-to-cart .btn:hover {
+        background-color: #e65c00;
+    }
+
+  .gallery .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .gallery .box-container .box {
+    overflow: hidden;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+    border: 1rem solid #fff;
+    border-radius: 0.5rem;
+    flex: 1 1 30rem;
+    height: 25rem;
+    position: relative;
+  }
+
+  .gallery .box-container .box img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .gallery .box-container .box .content {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    padding-top: 5rem;
+  }
+
+  .gallery .box-container .box:hover .content {
+    top: 0;
+  }
+
+  .gallery .box-container .box .content h3 {
+    font-size: 2.5rem;
+    color: var(--orange);
+  }
+
+  .gallery .box-container .box .content p {
+    font-size: 1.5rem;
+    color: #eee;
+    padding: 0.5rem 0;
+  }
+
+  .review .review-slider {
+    padding-bottom: 2rem;
+  }
+
+  .review .box {
+    padding: 2rem;
+    text-align: center;
+    
+  }
+
+  .review .box img {
+    height: 13rem;
+    width: 13rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+
+  .review .box h3 {
+    color: #333;
+    font-size: 2.5rem;
+  }
+
+  .review .box p {
+    color: #666;
+    font-size: 1.5rem;
+    padding: 1rem 0;
+  }
+
+  .brand-container {
+    text-align: center;
+  }
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<body>
+        <!-- home section starts -->
+    
+        <section class="home" id="home">
+            <div class="content">
+                <h3>du lịch và trải nghiệm</h3>
+                <p>Trải nghiệm tạm thời với bộ sưu tập hình ảnh và video thực tế</p>
+                <a href="/#gallery" class="btn">khám phá thêm</a>
+            </div>
+    
+            <div class="controls">
+                <span class="vid-btn active" data-src="../img/vid-3.mp4"></span>
+                <span class="vid-btn" data-src="../img/vid-5.mp4"></span>
+                <span class="vid-btn" data-src="../img/vid-4.mp4"></span>
+                <span class="vid-btn" data-src="../img/vid-2.mp4"></span>
+                <span class="vid-btn" data-src="../img/vid-1.mp4"></span>
+            </div>
+    
+            <div class="video-container">
+                <video src="../img/vid-3.mp4" id="video-slider" loop autoplay muted></video>
+            </div>
+        </section>
+        -->
+    
+        <!-- home section ends -->
+    
+        <!-- packages section starts -->
+    
+        <section class="packages" id="packages">
+            <h1 class="heading">
+                <span>t</span>
+                <span>o</span>
+                <span>u</span>
+                <span>r</span>
+            </h1>
+    
+            <div class="box-container">
+                {{#each tours}}
+                    <div class="tour-card">
+                        <a href="/tours/{{this.slug}}">
+                            <img src="{{this.image}}" alt="{{this.name}}">
+                        </a>
+                        <div class="tour-card-body">
+                            <a href="/tours/{{this.slug}}">
+                                <h2 class="tour-title">{{this.name}}</h2>
+                            </a>
+                            <div class="tour-price">{{formatPrice this.price}} </div>
+                            <div class="add-to-cart">
+    <button class="btn add-to-cart-btn" data-slug="{{this.slug}}">Thêm vào giỏ</button>
+</div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </section>
+    
+        <!-- packages section ends -->
+    
+        <!-- gallery section starts -->
+    
+        <section class="gallery" id="gallery">
+            <h1 class="heading">
+                <span>b</span>
+                <span>ộ</span>
+                <span>s</span>
+                <span>ư</span>
+                <span>u</span>
+                <span>t</span>
+                <span>ậ</span>
+                <span>p</span>
+            </h1>
+    
+            <div class="box-container">
+    <div class="box">
+        <img src="../img/i1.png" alt="" />
+        <div class="content">
+            <h3>điểm đến thú vị</h3>
+            <p>Bộ sưu tập biển đảo</p>
+            <a href="/gallery/category/Biển%20đảo" class="btn">xem thêm</a> <!-- Link đến trang chi tiết -->
+        </div>
+    </div>
+    <div class="box">
+        <img src="../img/i2.png" alt="" />
+        <div class="content">
+            <h3>điểm đến thú vị</h3>
+            <p>Bộ sưu tập thiên nhiên</p>
+            <a href="/gallery/category/Thiên%20nhiên" class="btn">xem thêm</a>
+        </div>
+    </div>
+    <div class="box">
+        <img src="../img/i3.png" alt="" />
+        <div class="content">
+            <h3>điểm đến thú vị</h3>
+            <p>Bộ sưu tập văn hóa, lịch sử</p>
+            <a href="/gallery/category/Văn%20hóa,%20lịch%20sử" class="btn">xem thêm</a>
+        </div>
+    </div>
+    <div class="box">
+        <img src="../img/i4.png" alt="" />
+        <div class="content">
+            <h3>điểm đến thú vị</h3>
+            <p>Bộ sưu tập miền núi, cao nguyên</p>
+            <a href="/gallery/category/Miền%20núi,%20cao%20nguyên" class="btn">xem thêm</a>
+        </div>
+    </div>
+    <div class="box">
+        <img src="../img/i5.png" alt="" />
+        <div class="content">
+            <h3>điểm đến thú vị</h3>
+            <p>Bộ sưu tập miền tây</p>
+            <a href="/gallery/category/Miền%20Tây" class="btn">xem thêm</a>
+        </div>
+    </div>
+</div>
+        </section>
+    
+        <!-- gallery section ends -->
+    
+        <!-- review section starts  -->
+    
+        <section class="review" id="review">
+    <h1 class="heading">
+        <span>đ</span>
+        <span>á</span>
+        <span>n</span>
+        <span>h</span>
+        <span>g</span>
+        <span>i</span>
+        <span>á</span>
+    </h1>
+     <div class="swiper-container review-slider">
+        <div class="swiper-wrapper">
+            <!-- Các phần tử review sẽ được thêm vào đây bằng JavaScript -->
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</section>
+    
+        <!-- review section ends -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Fetch dữ liệu từ API
+    fetch('/api/reviews')
+        .then(response => response.json())
+        .then(reviews => {
+            const reviewsContainer = document.querySelector('.swiper-wrapper');
+            // Kiểm tra nếu có reviews
+            if (reviews.length === 0) {
+                reviewsContainer.innerHTML = "<p>Không có đánh giá nào.</p>";
+            } else {
+                // Tạo các phần tử swiper-slide cho mỗi review
+                reviews.forEach(review => {
+                    const slide = document.createElement('div');
+                    slide.classList.add('swiper-slide');
+                    slide.innerHTML = `
+                        <div class="box">
+                            <img src="${review.image}" alt="${review.name}">
+                            <h3>${review.name}</h3>
+                            <p>${review.review}</p>
+                        </div>
+                    `;
+                    reviewsContainer.appendChild(slide);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi khi tải dữ liệu:', error);
+        });
+});
+
+</script>
+        <script>
+            let videoBtn = document.querySelectorAll('.vid-btn');
+            videoBtn.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelector('.controls .active').classList.remove('active');
+                    btn.classList.add('active');
+                    let src = btn.getAttribute('data-src');
+                    document.querySelector('#video-slider').src = src;
+                });
+            });
+
+            var swiper = new Swiper(".review-slider", {
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 1,
+            },
+            768: {
+                slidesPerView: 2,
+            },
+            1024: {
+                slidesPerView: 3,
+            },
+        },
+    });
+
+        </script>
+        <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // Lấy tất cả các nút Add to Cart
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+    // Gắn sự kiện click cho từng nút
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const slug = button.getAttribute('data-slug');
+
+            try {
+                // Gửi yêu cầu Ajax đến server
+                const response = await fetch(`/add-to-cart/${slug}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message); // Thông báo thành công
+                } else {
+                    alert(result.message); // Thông báo lỗi
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('vui lòng đăng nhập để sử dụng chức năng này!');
+            }
+        });
+    });
+});
+
+</script>
+    </body>
+

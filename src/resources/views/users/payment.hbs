@@ -1,0 +1,141 @@
+<section class="payment-section">
+  <h1 class="page-title">Thanh toán đơn hàng: {{order._id}}</h1>
+  <h3 class="section-title">Danh sách các sản phẩm:</h3>
+  <ul class="product-list">
+    {{#each order.items}}
+        <li class="product-item">
+            <span class="product-name">{{this.name}}</span> 
+            x{{this.quantity}} - 
+            <span class="product-price">{{formatPrice this.price}} </span>
+        </li>
+    {{/each}}
+  </ul>
+
+  <p class="total-amount"><strong>Tổng tiền:</strong> {{formatPrice order.totalAmount}} </p>
+
+  <h3 class="section-title">Thông tin ví:</h3>
+  <p class="wallet-info"><strong>Số dư hiện tại:</strong> {{formatPrice wallet.balance}} </p>
+
+  <!-- Form xác nhận thanh toán -->
+  {{#compare wallet.balance order.totalAmount}}
+    <!-- Nếu điều kiện đúng, hiển thị form này -->
+    <form class="payment-form" action="/checkout/confirm-payment/{{order._id}}" method="POST">
+      <button type="submit" class="confirm-payment-btn">Xác nhận thanh toán</button>
+    </form>
+  {{else}}
+    <!-- Nếu điều kiện sai, hiển thị thông báo lỗi -->
+    <p class="error-message">Số dư không đủ để thanh toán. Vui lòng nạp thêm tiền vào ví.</p>
+    <!-- Form bỏ qua luôn hiển thị -->
+    <form class="skip-form" action="/profile/my-orders" method="GET">
+      <button type="submit" class="skip-payment-btn">Bỏ qua thanh toán</button>
+    </form>
+  {{/compare}}
+</section>
+
+
+
+<style>
+  section.payment-section{
+    margin-top: 50px;
+    margin-bottom: 100px;
+  }
+.page-title {
+    text-align: center;
+    font-size: 2.4rem;
+    margin-top: 120px;
+    color: #2c3e50;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 20px 0 10px;
+    color: #34495e;
+}
+
+/* Product List */
+.product-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.product-item {
+    font-size: 1.2rem;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-name {
+    font-weight: bold;
+}
+
+.product-price {
+    color: #2ecc71;
+}
+
+/* Total Amount */
+.total-amount {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Wallet Info */
+.wallet-info {
+    font-size: 1.2rem;
+    margin-top: 15px;
+}
+
+/* Buttons */
+.payment-form, .skip-form {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.confirm-payment-btn, .skip-payment-btn {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #3498db;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-payment-btn:hover, .skip-payment-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Error Message */
+.error-message {
+    color: #e74c3c;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .product-item {
+        font-size: 1rem;
+    }
+
+    .total-amount, .wallet-info {
+        font-size: 1.2rem;
+    }
+
+    .confirm-payment-btn, .skip-payment-btn {
+        font-size: 1rem;
+    }
+}
+</style>

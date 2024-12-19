@@ -1,0 +1,136 @@
+ <header>
+    <style>
+.cart-icon {
+    position: relative;
+    color: #333;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.cart-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+
+</style>
+        <div id="menu-bar" class="fas fa-bars"></div>
+    
+        <a href="/#" class="logo"><span>T </span>Travel</a>
+    
+        <nav class="navbar">
+            <a href="/#home">Trang chủ</a>
+            <a href="/#packages">Tour</a>
+            <a href="/#gallery">Bộ sưu tập</a>
+            <a href="/#review">Đánh giá</a>
+        </nav>
+    
+        <div class="icons">
+            <i class="fas fa-search" id="search-btn"></i>
+            <i class="fas fa-user" id="login-btn"></i>
+             <a href="/cart" class="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </a>
+        </div>
+    
+        <form method="GET" action="/search" class="search-bar-container">
+    <input type="search" name="q" id="search-bar" placeholder="Nhập tên tour bạn muốn tìm..." />
+    <label for="search-bar" class="fas fa-search"></label>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchBtn = document.querySelector('#search-btn');
+    const searchBar = document.querySelector('.search-bar-container');
+    const menu = document.querySelector('#menu-bar');
+    const navbar = document.querySelector('.navbar');
+    const loginIcon = document.querySelector('#login-btn');
+    const searchForm = document.querySelector('.search-bar-container');
+    
+    // Toggle search bar visibility
+    searchBtn.addEventListener('click', () => {
+        searchBtn.classList.toggle('fa-times');
+        searchBar.classList.toggle('active');
+    });
+
+    // Close search bar on scroll
+    window.onscroll = () => {
+        searchBtn.classList.remove('fa-times');
+        searchBar.classList.remove('active');
+        menu.classList.remove('fa-times');
+        navbar.classList.remove('active');
+    };
+
+    // Toggle menu for mobile view
+    menu.addEventListener('click', () => {
+        menu.classList.toggle('fa-times');
+        navbar.classList.toggle('active');
+    });
+
+    // Check login status when login icon is clicked
+    if (loginIcon) {
+        loginIcon.addEventListener('click', () => {
+            fetch('/v1/auth/check-login-status')
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = data.loggedIn ? '/profile' : '/v1/auth/login';
+                })
+                .catch(err => console.error("Lỗi kiểm tra trạng thái đăng nhập:", err));
+        });
+    }
+
+    // Submit form when search is triggered by the icon
+    searchForm.querySelector('label').addEventListener('click', () => {
+        searchForm.submit();
+    });
+});
+
+</script>
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+    const cartCountElement = document.querySelector('.cart-count');
+
+    // Hàm cập nhật số lượng giỏ hàng
+    const updateCartCount = async () => {
+        try {
+            const response = await fetch('/count'); // Lấy số lượng từ server
+            const data = await response.json();
+            if (data.success) {
+                cartCountElement.textContent = data.count; // Hiển thị số lượng
+            }
+        } catch (error) {
+            console.error('Error fetching cart count:', error);
+        }
+    };
+
+    // Gọi hàm cập nhật khi tải trang
+    updateCartCount();
+
+    // Sự kiện khi bấm "Add to Cart"
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/count', { method: 'POST' }); // Cập nhật đếm
+                const result = await response.json();
+                if (result.success) {
+                    cartCountElement.textContent = parseInt(cartCountElement.textContent) + 1; // Tăng số hiển thị
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+
+</script>
+    </header>
+
+        

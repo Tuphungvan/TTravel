@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý người dùng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="mb-4">Quản lý người dùng</h1>
+        
+        <!-- Form tìm kiếm -->
+        <form action="/admin/users" method="GET" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên người dùng..." value="{{searchQuery}}">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </div>
+        </form>
+
+        <!-- Links sắp xếp -->
+        <div class="mb-4">
+            <a href="/admin/users?sort=asc" class="btn btn-outline-secondary">Sắp xếp A-Z</a>
+            <a href="/admin/users?sort=desc" class="btn btn-outline-secondary">Sắp xếp Z-A</a>
+        </div>
+
+        <!-- Table hiển thị danh sách người dùng -->
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Họ và tên</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                <tr>
+                    <td>{{this.username}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.phoneNumber}}</td>
+                    <td>{{this.address}}</td>
+                    <td>{{#if this.active}}Đang hoạt động{{else}}Đã khóa{{/if}}</td>
+                    <td>
+                        <!-- Khóa và kích hoạt tài khoản -->
+                        {{#if this.active}}
+                        <form action="/admin/deactivate-user/{{this._id}}" method="POST" class="d-inline-block">
+                            <button type="submit" class="btn btn-warning btn-sm">Khóa tài khoản</button>
+                        </form>
+                        {{else}}
+                        <form action="/admin/activate-user/{{this._id}}" method="POST" class="d-inline-block">
+                            <button type="submit" class="btn btn-success btn-sm">Kích hoạt tài khoản</button>
+                        </form>
+                        {{/if}}
+                        
+                        <!-- Khôi phục mật khẩu -->
+                        <form action="/admin/reset-password/{{this._id}}" method="POST" class="d-inline-block">
+                            <button type="submit" class="btn btn-info btn-sm">Khôi phục mật khẩu</button>
+                        </form>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <a href="/admin/dashboard" class="btn btn-secondary">Quay lại</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Tour</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+    <h1 class="mb-4">Tạo Tour Mới</h1>
+    <form action="/admin/create-tour" method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên Tour</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Mô tả tour</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="videoId" class="form-label">URL Video Youtube</label>
+<input type="text" class="form-control" id="videoUrl" name="videoUrl" value="{{tour.videoUrl}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="level" class="form-label">Mức độ Tour</label>
+            <select class="form-select" id="level" name="level" required>
+                <option value="Easy">Dễ</option>
+                <option value="Medium">Vừa</option>
+                <option value="Hard">Khó</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="startDate" class="form-label">Ngày bắt đầu</label>
+            <input type="date" class="form-control" id="startDate" name="startDate" required>
+        </div>
+        <div class="mb-3">
+            <label for="endDate" class="form-label">Ngày kết thúc</label>
+            <input type="date" class="form-control" id="endDate" name="endDate" required>
+        </div>
+        <div class="mb-3">
+            <label for="itinerary" class="form-label">Lịch trình</label>
+            <textarea class="form-control" id="itinerary" name="itinerary" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Giá Tour</label>
+            <input type="number" class="form-control" id="price" name="price" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Tạo Tour</button>
+    </form>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

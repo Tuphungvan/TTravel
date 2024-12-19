@@ -1,0 +1,247 @@
+<style>
+    .search-section {
+        margin-top: 120px;
+        padding: 60px 20px;
+        text-align: center;
+        background-color: #f9f9f9;
+    }
+    .search-title {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 30px;
+    }
+    .search-form {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .search-input, .search-select, input[type="number"], input[type="date"] {
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .search-input {
+        width: 300px;
+    }
+    .search-select, input[type="number"] {
+        width: 150px;
+    }
+    .btn-search {
+        padding: 10px 20px;
+        background-color: #ff6600;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .btn-search:hover {
+        background-color: #e65c00;
+    }
+
+    /* Thêm styles cho thanh range */
+    .price-range-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 300px;
+    }
+    output {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+    input[type="range"] {
+        width: 100%;
+    }
+
+    /* Swiper Styles */
+    .available-tours {
+        padding: 50px 20px;
+        background-color: white;
+        text-align: center;
+    }
+    .section-title {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 40px;
+    }
+    .featured-tours-slider {
+        padding: 40px 0;
+    }
+    .swiper-wrapper {
+        display: flex;
+    }
+    .swiper-slide {
+        width: auto;
+        display: flex;
+        justify-content: center;
+    }
+    .swiper-button-next, 
+    .swiper-button-prev {
+        color: #333;
+        font-size: 1.5rem;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        padding: 10px;
+    }
+    .swiper-button-next:hover, 
+    .swiper-button-prev:hover {
+        background-color: #ddd;
+    }
+    .tour-card {
+        background-color: #fff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 350px;
+        transition: transform 0.3s ease;
+    }
+    .tour-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    .tour-card-body {
+        padding: 20px;
+    }
+    .tour-title {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+    .tour-price {
+        font-size: 1.4rem;
+        color: #ff6600;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .btn {
+        background-color: #ff6600;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+        background-color: #e65c00;
+    }
+    .tour-card:hover {
+        transform: translateY(-10px);
+    }
+</style>
+
+<!-- Tour Search Section -->
+<section class="search-section">
+    <h1 class="search-title">Tìm Kiếm Tour Hoàn Hảo Cho Bạn</h1>
+    <form id="search-form" class="search-form" action="/search" method="get">
+        <input type="text" name="q" placeholder="Nhập tên tour hoặc điểm đến của bạn" class="search-input">
+        <select name="level" class="search-select">
+            <option value="">Chọn Mức độ</option>
+            <option value="Easy">Dễ</option>
+            <option value="Medium">Vừa</option>
+            <option value="Hard">Khó</option>
+        </select>
+        <input type="date" name="startDate" class="search-input">
+        <input type="date" name="endDate" class="search-input">
+        
+        <!-- Thêm div để chứa giá trị output và range -->
+        <div class="price-range-container">
+            <output id="price-output">5,000,000</output>
+            <input type="range" name="price" min="0" max="10000000" class="search-input" step="500000" onchange="document.getElementById('price-output').value = this.value">
+        </div>
+
+        <button type="submit" class="btn-search">Tìm kiếm</button>
+    </form>
+</section>
+
+<!-- Available Tours Section -->
+<section class="available-tours">
+    <h2 class="section-title">Các tour du lịch có sẵn</h2>
+    <div class="swiper featured-tours-slider">
+        <div class="swiper-wrapper">
+            {{#if tours.length}}
+                {{#each tours}}
+                <div class="swiper-slide">
+                    <div class="tour-card">
+                        <a href="/tours/{{this.slug}}">
+                            <img src="{{this.image}}" alt="{{this.name}}">
+                        </a>
+                        <div class="tour-card-body">
+                            <a href="/tours/{{this.slug}}">
+                                <h2 class="tour-title">{{this.name}}</h2>
+                            </a>
+                            <div class="tour-price">{{formatPrice this.price}} </div>
+                            <div class="add-to-cart">
+    <button class="btn add-to-cart-btn" data-slug="{{this.slug}}">thêm vào giỏ</button>
+</div>
+
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            {{else}}
+                <p>Không tìm thấy tour nào phù hợp với tiêu chí của bạn.</p>
+            {{/if}}
+        </div>
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</section>
+
+<script>
+    new Swiper('.featured-tours-slider', {
+        slidesPerView: 3,
+        spaceBetween: 20,
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            1024: { slidesPerView: 3 },
+            768: { slidesPerView: 2 },
+            640: { slidesPerView: 1 },
+            400: { slidesPerView: 1 },
+        },
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // Lấy tất cả các nút Add to Cart
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+    // Gắn sự kiện click cho từng nút
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const slug = button.getAttribute('data-slug');
+
+            try {
+                // Gửi yêu cầu Ajax đến server
+                const response = await fetch(`/add-to-cart/${slug}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message); // Thông báo thành công
+                } else {
+                    alert(result.message); // Thông báo lỗi
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('vui lòng đăng nhập để sử dụng chức năng này!');
+            }
+        });
+    });
+});
+
+</script>

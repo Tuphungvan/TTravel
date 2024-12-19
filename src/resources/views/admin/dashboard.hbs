@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Nunito", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-dashboard {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #333;
+            color: white;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            transition: width 0.3s ease;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu ul li {
+            margin: 15px 0;
+        }
+
+        .menu ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: block;
+            transition: background 0.3s;
+        }
+
+        .menu ul li a:hover {
+            background: #444;
+        }
+
+        .content {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .profile-icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-icon i {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 30px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .sidebar.collapsed {
+            width: 0;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .admin-dashboard {
+                flex-direction: column;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .sidebar.collapsed {
+                display: block;
+                width: 0;
+            }
+
+            .sidebar.open {
+                display: block;
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-dashboard">
+        <button class="hamburger" id="hamburger-menu">☰</button>
+
+        <aside class="sidebar">
+            <div class="profile-icon" id="login-btn"><i class="fas fa-user"></i> Hồ sơ</div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="/admin/create-admin"><i class="fas fa-user-plus icon"></i> Thêm quản trị viên</a></li>
+                    <li><a href="/admin/manage-tours"><i class="fas fa-map-marker-alt icon"></i> Quản lý Tour</a></li>
+                    <li><a href="/admin/users"><i class="fas fa-users icon"></i> Quản lý người dùng</a></li>
+                    <li><a href="/admin/gallery"><i class="fas fa-images icon"></i> Quản lý bộ sưu tập</a></li>
+                    <li><a href="/admin/manager-order"><i class="fas fa-bookmark icon"></i> Quản lý đơn hàng</a></li>
+                    <li><a href="/admin/review"><i class="fas fa-star icon"></i> Quản lý đánh giá</a></li>
+                    <li><a href="/admin/manager-order/revenue-report"><i class="fas fa-chart-line icon"></i> Báo cáo doanh thu</a></li>
+                    {{!-- <li><a href="/admin/settings"><i class="fas fa-cogs icon"></i> Cài đặt</a></li> --}}
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="content">
+            <main>
+                <section id="page-content">
+                    <p>Chào mừng đến với giao diện quản trị!</p>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuLinks = document.querySelectorAll(".menu a");
+            const pageContent = document.getElementById("page-content");
+            const sidebar = document.querySelector(".sidebar");
+            const hamburger = document.getElementById("hamburger-menu");
+
+            // Khi click vào các link trong menu, cập nhật nội dung trang
+            menuLinks.forEach(link => {
+                link.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    const url = link.getAttribute("href");
+
+                    fetch(url)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Không thể tải ${url}`);
+                            }
+                            return response.text();
+                        })
+                        .then(html => {
+                            pageContent.innerHTML = html; // Thay thế nội dung hiện tại
+                        })
+                        .catch(err => {
+                            console.error("Lỗi khi tải nội dung:", err);
+                            pageContent.innerHTML = `<p>Không thể hiển thị nội dung từ "${url}".</p>`;
+                        });
+                });
+            });
+
+            // Khi click vào nút hamburger, hiển thị hoặc ẩn sidebar
+            hamburger.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+            });
+
+            // Kiểm tra trạng thái đăng nhập khi click vào "Profile"
+            document.querySelector('#login-btn')?.addEventListener('click', () => {
+                fetch('/v1/auth/check-login-status')
+                    .then(response => response.json())
+                    .then(data => {
+                        window.location.href = data.loggedIn ? '/profile/update-profile' : '/v1/auth/login';
+                    })
+                    .catch(err => console.error("Lỗi kiểm tra trạng thái đăng nhập:", err));
+            });
+        });
+    </script>
+</body>
+</html>

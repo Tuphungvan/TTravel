@@ -1,0 +1,153 @@
+<section class="checkout">
+    <h1 class="checkout-title">Thông tin đặt hàng</h1>
+
+    <!-- Danh sách các tour đã chọn -->
+    <div class="checkout-items">
+        {{#each cart.items}}
+        <div class="checkout-item">
+            <img class="checkout-item-image" src="{{this.image}}" alt="{{this.name}}" />
+            <div class="checkout-item-info">
+                <h3 class="item-name">{{this.name}}</h3>
+                <p class="item-price">Giá bán: {{formatPrice this.price}} </p>
+            </div>
+        </div>
+        {{/each}}
+        <h3 class="total">Tổng tiền: {{formatPrice total}} </h3>
+    </div>
+    <div class="checkout-buttons">
+        <form action="/checkout/place-order" method="POST">
+            <button type="submit" class="place-order-btn">Đặt hàng</button>
+        </form>
+    </div>
+</section>
+
+<style>
+/* General Styles */
+section.checkout{
+    margin-top: 150px; 
+    margin-bottom: 100px;
+}
+.checkout {
+    width: 90%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f4f7fc;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-title {
+    text-align: center;
+    font-size: 2.4rem;
+    color: #2c3e50;
+    margin-bottom: 25px;
+}
+
+/* Checkout Items */
+.checkout-items {
+    margin-bottom: 35px;
+}
+
+.checkout-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 18px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-item img.checkout-item-image {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.checkout-item-info {
+    flex-grow: 1;
+}
+
+.item-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 8px;
+}
+
+.item-price {
+    font-size: 1rem;
+    color: #7f8c8d;
+}
+
+/* Total Price */
+.total {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: right;
+    margin-top: 25px;
+}
+
+/* Checkout Buttons */
+.checkout-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.checkout-buttons form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.place-order-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    font-size: 1.3rem;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #3498db;
+    transition: background-color 0.3s ease;
+}
+
+.place-order-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .checkout {
+        width: 95%;
+    }
+
+    .checkout-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .checkout-item img.checkout-item-image {
+        margin-bottom: 15px;
+    }
+
+    .total {
+        text-align: left;
+    }
+
+    .checkout-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .place-order-btn {
+        font-size: 1.1rem;
+    }
+}
+</style>

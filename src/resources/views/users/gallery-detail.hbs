@@ -1,0 +1,142 @@
+<section class="section">
+    <h1>Bộ sưu tập: {{category}}</h1>
+
+    {{#if galleryItems.length}}
+        <div class="gallery-items">
+            {{#each galleryItems}}
+                <div class="item">
+                    <img src="{{this.mediaUrl}}" alt="{{this.caption}}" class="gallery-image" data-src="{{this.mediaUrl}}">
+                    <p>{{this.caption}}</p>
+                </div>
+            {{/each}}
+        </div>
+    {{else}}
+        <p>{{message}}</p>
+    {{/if}}
+
+    <!-- Modal để xem ảnh full screen -->
+    <div id="imageModal" class="modal">
+        <img class="modal-content" id="modalImage">
+        <div id="caption"></div>
+    </div>
+</section>
+
+<style>
+section.section {
+    margin-top: 120px;
+    margin-bottom: 90px;
+}
+
+/* Đặt kiểu cho trang gallery */
+.gallery-items {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Mỗi hàng có 4 cột */
+    gap: 20px; /* Khoảng cách giữa các ảnh */
+    padding: 20px;
+}
+
+.gallery-items .item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-items .item img {
+    width: 100%;
+    height: 200px; /* Đặt chiều cao cố định */
+    object-fit: cover; /* Giữ tỷ lệ ảnh */
+    border-radius: 8px;
+    cursor: pointer; /* Khi di chuột qua, ảnh có thể bấm được */
+    display: block; /* Đảm bảo ảnh căn đều */
+}
+
+.gallery-items .item p {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.gallery-items .item:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal */
+.modal {
+    display: none; /* Ẩn modal khi chưa bấm vào ảnh */
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    height: auto;
+    max-width: 700px;
+}
+
+#caption {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+}
+
+/* Đảm bảo các ảnh vẫn responsive khi kích thước màn hình thay đổi */
+@media (max-width: 1200px) {
+    .gallery-items {
+        grid-template-columns: repeat(3, 1fr); /* 3 cột trên màn hình nhỏ hơn */
+    }
+}
+
+@media (max-width: 800px) {
+    .gallery-items {
+        grid-template-columns: repeat(2, 1fr); /* 2 cột trên màn hình nhỏ hơn nữa */
+    }
+}
+
+@media (max-width: 500px) {
+    .gallery-items {
+        grid-template-columns: 1fr; /* 1 cột trên màn hình điện thoại */
+    }
+}
+
+</style>
+<script>
+// Lấy các phần tử cần thiết
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImage");
+const captionText = document.getElementById("caption");
+
+// Khi người dùng click vào ảnh, mở modal
+const galleryImages = document.querySelectorAll('.gallery-image');
+galleryImages.forEach(image => {
+    image.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.getAttribute('data-src');
+        captionText.innerHTML = this.alt;
+    };
+});
+
+// Khi người dùng click vào khu vực ngoài ảnh, đóng modal
+window.onclick = function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
+</script>

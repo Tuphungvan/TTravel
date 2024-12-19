@@ -1,0 +1,148 @@
+<section class="order-list">
+    <h1>Danh sách đơn hàng của tôi</h1>
+
+    {{#if orders.length}}
+        <ul>
+            {{#each orders}}
+                <li>
+                    <p><strong>Đơn hàng ID:</strong> {{this._id}}</p>
+                    <p><strong>Trạng thái:</strong> {{this.status}}</p>
+                    <p><strong>Tổng tiền:</strong> {{formatPrice this.totalAmount}} </p>
+                    <p><strong>Ngày đặt:</strong> {{this.createdAt}}</p>
+                    
+                    <p><strong>Danh sách tour:</strong></p>
+                    <ul>
+                        {{#each this.items}}  <!-- Lặp qua từng mục trong mảng items -->
+                            <li>
+                                <p><strong>Tên tour:</strong> {{this.name}}</p>  <!-- Hiển thị tên tour -->
+                                <p><strong>Số lượng:</strong> {{this.quantity}}</p>  <!-- Hiển thị số lượng -->
+                                <p><strong>Giá:</strong> {{formatPrice this.price}}</p>  <!-- Hiển thị giá -->
+                            </li>
+                        {{/each}}
+                    </ul>
+                    
+                    {{#ifEquals this.status "Chờ thanh toán"}}
+                        <form action="/checkout/confirm-payment/{{this._id}}" method="POST">
+                            <button type="submit" class="btn confirm-btn">Xác nhận thanh toán</button>
+                        </form>
+                    {{else}}
+                        <span class="btn confirmed-btn">Đã thanh toán</span>
+                    {{/ifEquals}}
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p class="empty-message">Chưa có đơn hàng nào.</p>
+    {{/if}}
+</section>
+
+<style>
+section.order-list{
+    margin-top: 150px;
+    margin-bottom: 100px;
+}
+.order-list {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+li:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+p {
+    margin: 5px 0;
+    line-height: 1.6;
+}
+
+p strong {
+    color: #555;
+}
+
+.empty-message {
+    text-align: center;
+    color: #777;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.confirm-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.confirm-btn:hover {
+    background-color: #45a049;
+}
+
+.confirmed-btn {
+    background-color: #2196F3;
+    color: white;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.confirmed-btn:hover {
+    background-color: #1976D2;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .order-list {
+        padding: 15px;
+    }
+
+    li {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+    }
+}
+
+</style>

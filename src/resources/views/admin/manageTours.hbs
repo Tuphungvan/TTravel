@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Tours</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Quản lý Tour</h1>
+        <a href="/admin/create-tour" class="btn btn-primary mb-3">Tạo tour mới</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th> <!-- Thêm cột số thứ tự -->
+                    <th>Tên</th>
+                    <th>Mức độ</th>
+                    <th>Giá tour</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each tours}}
+                    <tr>
+                        <td>{{add @index 1}}</td> <!-- Đánh số thứ tự -->
+                        <td>{{this.name}}</td>
+                        <td>{{this.level}}</td>
+                        <td>{{formatPrice this.price}}</td>
+                        <td>
+                            <a href="/admin/edit-tour/{{this._id}}" class="btn btn-warning">Sửa</a>
+                            <form action="/admin/delete-tour/{{this._id}}" method="POST" style="display:inline;">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <a href="/admin/dashboard" class="btn btn-secondary">Quay lại</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

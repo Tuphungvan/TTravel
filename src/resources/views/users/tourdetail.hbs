@@ -1,0 +1,220 @@
+<style>
+/* General Styles */
+.tour-detail {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-top: 120px;
+}
+
+.tour-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tour-header h1 {
+    font-size: 3rem;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+/* Content Layout */
+.tour-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Image */
+.image .tour-img {
+    width: 80%; /* Giảm kích thước ảnh còn 80% của khung cha */
+    max-width: 400px; /* Đặt giới hạn tối đa */
+    height: auto; /* Tự động theo tỷ lệ */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 0; /* Căn trái */
+    display: block;
+}
+
+/* Sections */
+.about h2,
+.video h2,
+.price h2,
+.level h2,
+.time h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.about p,
+.video p,
+.price p,
+.level p,
+.time p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.video iframe {
+    width: 80%; /* Kích thước video bằng với ảnh */
+    max-width: 400px; /* Đặt giới hạn tối đa tương tự ảnh */
+    height: auto; /* Tự động theo tỷ lệ */
+    aspect-ratio: 16 / 9; /* Đảm bảo tỷ lệ video */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 0; /* Căn trái */
+    display: block;
+}
+
+/* Bottom Content */
+.bottom-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.itinerary {
+    flex: 2;
+}
+
+.itinerary h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.itinerary ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.itinerary li {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 10px 0;
+}
+
+/* Add to Cart */
+.add-to-cart {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.add-to-cart .btn {
+    padding: 15px 35px;
+    background-color: #ff6600;
+    color: white;
+    font-size: 1.4rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.add-to-cart .btn:hover {
+    background-color: #e65c00;
+    transform: scale(1.05);
+}
+    </style>
+    <!-- Tour Detail Section -->
+  <section class="tour-detail">
+    <div class="tour-header">
+        <h1>{{tour.name}}</h1>
+    </div>
+    <div class="tour-content">
+        <!-- Hình ảnh -->
+        <div class="image">
+            <img src="{{tour.image}}" alt="{{tour.name}}" class="tour-img">
+        </div>
+        <!-- About the Tour -->
+        <div class="about">
+            <h2>Thông tin mô tả</h2>
+            <p>{{tour.description}}</p>
+        </div>
+        <!-- Tour Video -->
+        <div class="video">
+            <h2>Video Của Tour</h2>
+            <iframe
+                width="100%"
+                height="315"
+                src="https://www.youtube.com/embed/{{tour.videoId}}"
+                title="Tour Video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <!-- Giá -->
+        <div class="price">
+            <h2>Giá bán <p style="color: #ff6600;">{{formatPrice tour.price}} </p></h2>
+            <p class="note">* Bao gồm tất cả các bữa ăn, chỗ ở và hoạt động trong thời gian tour.</p>
+        </div>
+        <!-- Level -->
+        <div class="level">
+            <h2>Mức độ Của Tour</h2>
+            <p>{{translateLevel tour.level}}</p>
+        </div>
+        <!-- Thời gian -->
+        <div class="time">
+            <h2>Thời gian</h2>
+            <p>Ngày Bắt Đầu: {{formatDate tour.startDate}}</p>
+            <p>Ngày Kết Thúc: {{formatDate tour.endDate}}</p>
+        </div>
+    </div>
+    <!-- Itinerary và Add to Cart -->
+    <div class="bottom-content">
+        <!-- Tour Itinerary -->
+        <div class="itinerary">
+            <h2>Lịch Trình Của Tour</h2>
+            <ul>
+                {{#each (split tour.itinerary "\n")}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        <!-- Add to Cart -->
+        <div class="add-to-cart">
+            <button class="btn add-to-cart-btn" data-slug="{{tour.slug}}">Thêm vào giỏ</button>
+        </div>
+    </div>
+</section>
+
+<!-- Script for Ajax Add to Cart -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const addToCartButton = document.querySelector('.add-to-cart-btn');
+
+        addToCartButton.addEventListener('click', async () => {
+            const slug = addToCartButton.getAttribute('data-slug');
+
+            try {
+                // Gửi yêu cầu Ajax đến server
+                const response = await fetch(`/add-to-cart/${slug}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message); // Thông báo thành công
+                } else {
+                    alert(result.message); // Thông báo lỗi
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('vui lòng đăng nhập để sử dụng chức năng này!');
+            }
+        });
+    });
+</script>

@@ -1,0 +1,123 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<style>
+main {
+    background-color: #f9f9f9;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Header styling */
+h1 {
+    margin-top: 120px;
+    margin-bottom: 20px;
+    font-size: 3rem; /* Tăng kích thước font của tiêu đề */
+    color: #444;
+}
+
+/* Styling cho các hành động trong hồ sơ */
+.profile-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+    justify-items: center;
+    grid-template-columns: repeat(2, 250px); /* Tăng chiều rộng các phần tử */
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* Thẻ hành động */
+.action {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 220px; /* Tăng chiều rộng */
+    padding: 25px; /* Tăng padding để các mục trông to hơn */
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.action:hover {
+    transform: translateY(-5px);
+}
+
+.action img {
+    width: 60px; /* Tăng kích thước hình ảnh */
+    height: 60px;
+    margin-bottom: 15px; /* Tăng khoảng cách dưới ảnh */
+}
+
+.action p {
+    font-size: 1.2rem; /* Tăng kích thước font của mô tả */
+    font-weight: bold;
+    color: #444;
+}
+
+/* Nút đăng xuất */
+.logout-button {
+    padding: 20px 40px; /* Tăng padding cho nút đăng xuất */
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 30px;
+    grid-column: span 2;
+    font-size: 1.4rem; /* Tăng kích thước font của nút */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 80px;
+}
+
+.logout-button:hover {
+    background: #c82333;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .profile-actions {
+        grid-template-columns: 1fr;
+        gap: 15px; /* Tăng khoảng cách giữa các mục */
+    }
+
+    .logout-button {
+        font-size: 1.3rem;
+        padding: 15px 35px; /* Điều chỉnh padding cho nút */
+    }
+}
+
+</style>
+
+<main>
+    <h1>Hồ sơ của tôi</h1>
+    <section class="profile-actions">
+        <div class="action">
+            <a href="profile/my-orders">
+                <i class="fas fa-shopping-bag"></i>
+                <p>đơn hàng của tôi</p>
+            </a>
+        </div>
+        <div class="action">
+            <a href="profile/history">
+                <i class="fas fa-history"></i>
+                <p>lịch sử đơn hàng</p>
+            </a>
+        </div>
+        <div class="action">
+            <a href="profile/update-profile">
+                <i class="fas fa-user-edit"></i>
+                <p>cập nhật hồ sơ</p>
+            </a>
+        </div>
+        <div class="action">
+            <a href="profile/recharge-wallet">
+                <i class="fas fa-wallet"></i>
+                <p>ví của tôi</p>
+            </a>
+        </div>
+    </section>
+    <button class="logout-button" onclick="window.location.href='/v1/auth/logout'">đăng xuất</button>
+</main>
