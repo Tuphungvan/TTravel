@@ -21,8 +21,7 @@ if not os.path.exists(SCREENSHOTS_DIR):
 # Fixture để khởi tạo và đóng trình duyệt
 @pytest.fixture
 def driver():
-    service = Service(r"/chromedriver.exe")
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.get("http://localhost:3000/v1/auth/logout")  # Đăng xuất để xóa session
     driver.get("http://localhost:3000/v1/auth/login")  # Tải trang đăng nhập
     yield driver
