@@ -1,107 +1,23 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"Kiểm tra đăng ký thành công với thông tin hợp lệ
+"Kiểm tra tìm kiếm tour thành công với từ khóa
 
-Kiểm tra lỗi khi email đã được đăng ký
-
-Kiểm tra lỗi khi username đã được sử dụng
-
-Kiểm tra lỗi khi số điện thoại đã được đăng ký
-
-Kiểm tra lỗi khi username ngắn hơn 6 ký tự
+Kiểm tra trường hợp không tìm thấy tour với từ khóa
 
 Kiểm tra lỗi server khi cơ sở dữ liệu không phản hồi
 
-Kiểm tra gán quyền admin khi chưa có admin
+Kiểm tra tìm kiếm khi không có từ khóa","16","nên trả về thông báo không tìm thấy khi không có tour phù hợp","","Mon May 26 17:09:07 ICT 2025","passed","Mon May 26 17:09:07 ICT 2025","Search by Keyword","SiteController - Search (Keyword)","",""
+"Kiểm tra tìm kiếm tour thành công với từ khóa
 
-Kiểm tra gán quyền không phải admin khi đã có admin","57","nên trả về lỗi server nếu không kết nối được cơ sở dữ liệu","","Fri May 23 10:39:20 ICT 2025","passed","Fri May 23 10:39:20 ICT 2025","register","AuthController - Register","",""
-"Kiểm tra đăng ký thành công với thông tin hợp lệ
-
-Kiểm tra lỗi khi email đã được đăng ký
-
-Kiểm tra lỗi khi username đã được sử dụng
-
-Kiểm tra lỗi khi số điện thoại đã được đăng ký
-
-Kiểm tra lỗi khi username ngắn hơn 6 ký tự
+Kiểm tra trường hợp không tìm thấy tour với từ khóa
 
 Kiểm tra lỗi server khi cơ sở dữ liệu không phản hồi
 
-Kiểm tra gán quyền admin khi chưa có admin
+Kiểm tra tìm kiếm khi không có từ khóa","2","nên xử lý tìm kiếm không có từ khóa (query q rỗng)","","Mon May 26 17:09:07 ICT 2025","passed","Mon May 26 17:09:07 ICT 2025","Search by Keyword","SiteController - Search (Keyword)","",""
+"Kiểm tra tìm kiếm tour thành công với từ khóa","12","nên trả về danh sách tour phù hợp với từ khóa tìm kiếm","","Mon May 26 17:09:07 ICT 2025","passed","Mon May 26 17:09:07 ICT 2025","Search by Keyword","SiteController - Search (Keyword)","",""
+"Kiểm tra tìm kiếm tour thành công với từ khóa
 
-Kiểm tra gán quyền không phải admin khi đã có admin","2","nên gán admin = true nếu chưa có admin","","Fri May 23 10:39:20 ICT 2025","passed","Fri May 23 10:39:20 ICT 2025","register","AuthController - Register","",""
-"Kiểm tra đăng ký thành công với thông tin hợp lệ
-
-Kiểm tra lỗi khi email đã được đăng ký
-
-Kiểm tra lỗi khi username đã được sử dụng
-
-Kiểm tra lỗi khi số điện thoại đã được đăng ký
-
-Kiểm tra lỗi khi username ngắn hơn 6 ký tự
+Kiểm tra trường hợp không tìm thấy tour với từ khóa
 
 Kiểm tra lỗi server khi cơ sở dữ liệu không phản hồi
 
-Kiểm tra gán quyền admin khi chưa có admin
-
-Kiểm tra gán quyền không phải admin khi đã có admin","2","nên trả về lỗi nếu username quá ngắn","","Fri May 23 10:39:20 ICT 2025","passed","Fri May 23 10:39:20 ICT 2025","register","AuthController - Register","",""
-"Kiểm tra đăng ký thành công với thông tin hợp lệ
-
-Kiểm tra lỗi khi email đã được đăng ký
-
-Kiểm tra lỗi khi username đã được sử dụng
-
-Kiểm tra lỗi khi số điện thoại đã được đăng ký
-
-Kiểm tra lỗi khi username ngắn hơn 6 ký tự
-
-Kiểm tra lỗi server khi cơ sở dữ liệu không phản hồi
-
-Kiểm tra gán quyền admin khi chưa có admin
-
-Kiểm tra gán quyền không phải admin khi đã có admin","2","nên gán admin = false nếu đã có admin","","Fri May 23 10:39:20 ICT 2025","passed","Fri May 23 10:39:20 ICT 2025","register","AuthController - Register","",""
-"Kiểm tra đăng ký thành công với thông tin hợp lệ","14","nên đăng ký thành công và render thông báo thành công","","Fri May 23 10:39:20 ICT 2025","passed","Fri May 23 10:39:20 ICT 2025","register","AuthController - Register","",""
-"Kiểm tra đăng ký thành công với thông tin hợp lệ
-
-Kiểm tra lỗi khi email đã được đăng ký
-
-Kiểm tra lỗi khi username đã được sử dụng
-
-Kiểm tra lỗi khi số điện thoại đã được đăng ký
-
-Kiểm tra lỗi khi username ngắn hơn 6 ký tự
-
-Kiểm tra lỗi server khi cơ sở dữ liệu không phản hồi
-
-Kiểm tra gán quyền admin khi chưa có admin
-
-Kiểm tra gán quyền không phải admin khi đã có admin","2","nên trả về lỗi nếu số điện thoại đã tồn tại","","Fri May 23 10:39:20 ICT 2025","passed","Fri May 23 10:39:20 ICT 2025","register","AuthController - Register","",""
-"Kiểm tra đăng ký thành công với thông tin hợp lệ
-
-Kiểm tra lỗi khi email đã được đăng ký
-
-Kiểm tra lỗi khi username đã được sử dụng
-
-Kiểm tra lỗi khi số điện thoại đã được đăng ký
-
-Kiểm tra lỗi khi username ngắn hơn 6 ký tự
-
-Kiểm tra lỗi server khi cơ sở dữ liệu không phản hồi
-
-Kiểm tra gán quyền admin khi chưa có admin
-
-Kiểm tra gán quyền không phải admin khi đã có admin","2","nên trả về lỗi nếu username đã tồn tại","","Fri May 23 10:39:20 ICT 2025","passed","Fri May 23 10:39:20 ICT 2025","register","AuthController - Register","",""
-"Kiểm tra đăng ký thành công với thông tin hợp lệ
-
-Kiểm tra lỗi khi email đã được đăng ký
-
-Kiểm tra lỗi khi username đã được sử dụng
-
-Kiểm tra lỗi khi số điện thoại đã được đăng ký
-
-Kiểm tra lỗi khi username ngắn hơn 6 ký tự
-
-Kiểm tra lỗi server khi cơ sở dữ liệu không phản hồi
-
-Kiểm tra gán quyền admin khi chưa có admin
-
-Kiểm tra gán quyền không phải admin khi đã có admin","11","nên trả về lỗi nếu email đã tồn tại","","Fri May 23 10:39:20 ICT 2025","passed","Fri May 23 10:39:20 ICT 2025","register","AuthController - Register","",""
+Kiểm tra tìm kiếm khi không có từ khóa","70","nên trả về lỗi server nếu có lỗi trong quá trình tìm kiếm","","Mon May 26 17:09:07 ICT 2025","passed","Mon May 26 17:09:07 ICT 2025","Search by Keyword","SiteController - Search (Keyword)","",""

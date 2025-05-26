@@ -19,3 +19,5 @@ module.exports = {
         ],
     ],
 };
+//npx allure generate reports / allure - results - o reports / allure - report--clean
+// npx allure open reports/allure-report
