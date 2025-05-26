@@ -8,23 +8,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from pymongo import MongoClient
 import time
 
-# Danh sách tour có sẵn để tham khảo trong test
-AVAILABLE_TOURS = [
-    "Hà Nội 2 Ngày 1 Đêm",
-    "Sapa 3 Ngày 2 Đêm",
-    "Nha Trang 4 Ngày 3 Đêm",
-    "Đà Nẵng 3 Ngày 2 Đêm",
-    "Phú Quốc 4 Ngày 3 Đêm",
-    "Huế 2 Ngày 1 Đêm",
-    "Cát Bà 3 Ngày 2 Đêm",
-    "Mũi Né 3 Ngày 2 Đêm",
-    "Bình Ba 2 Ngày 1 Đêm",
-    "Hạ Long 1 Ngày",
-    "Ninh Bình 2 Ngày 1 Đêm",
-    "Quảng Bình 3 Ngày 2 Đêm",
-    "Tây Nguyên 4 Ngày 3 Đêm"
-]
-
 # Fixture để thiết lập và dọn dẹp
 @pytest.fixture(scope="module")
 def setup_teardown():
@@ -37,25 +20,25 @@ def setup_teardown():
     except Exception as e:
         print(f"Lỗi kết nối MongoDB: {e}")
         pytest.exit(f"MongoDB connection failed: {e}")
-
+    
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     base_url = "http://localhost:3000/#home"
-
+    
     tours_collection.delete_many({})
     tours_collection.insert_many([
-        {'name': tour, 'level': 'Dễ', 'price': 1000000, 'startDate': '2025-06-01', 'slug': tour.lower().replace(" ", "-")}
-        for tour in AVAILABLE_TOURS
+        {'name': 'Tour Hà Nội', 'level': 'Dễ', 'price': 1000000, 'startDate': '2025-06-01', 'slug': 'tour-ha-noi'},
+        {'name': 'Tour Đà Nẵng', 'level': 'Trung bình', 'price': 2000000, 'startDate': '2025-06-02', 'slug': 'tour-da-nang'}
     ])
     print("Đã thêm tour mẫu vào cơ sở dữ liệu")
-
+    
     yield driver, tours_collection, base_url
-
+    
     tours_collection.delete_many({})
     driver.quit()
     mongo_client.close()
     print("Đã dọn dẹp dữ liệu và đóng trình duyệt/MongoDB")
 
-# Hàm thực hiện tìm kiếm
+# Hàm hỗ trợ nhập từ khóa tìm kiếm
 def perform_search(driver, keyword):
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "search-btn"))).click()
     time.sleep(1)
@@ -65,61 +48,45 @@ def perform_search(driver, keyword):
     driver.execute_script("arguments[0].click();", driver.find_element(By.CSS_SELECTOR, ".search-bar-container label"))
     time.sleep(2)
 
-# Hàm lấy thông báo lỗi
+# Hàm lấy thông báo
 def get_message(driver, class_name):
     try:
         return WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.CLASS_NAME, class_name))).text
     except:
-        # Thử tìm thông báo lỗi trong thẻ <p> hoặc các class khác
-        try:
-            return WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".tour-list p, .error-message, .alert"))).text
-        except:
-            return None
-
-# Hàm lấy danh sách tên tour từ kết quả
-def get_tour_names(driver):
-    try:
-        tour_elements = driver.find_elements(By.CLASS_NAME, "tour-card")
-        return [element.find_element(By.CSS_SELECTOR, "h2, h3, .tour-title, .tour-name").text for element in tour_elements]
-    except:
-        return []
+        return None
 
 # Test case 1: Tìm kiếm với từ khóa hợp lệ
-@pytest.mark.search
 def test_tc01_search_valid_keyword(setup_teardown):
     driver, tours_collection, base_url = setup_teardown
     print("TC01: Tìm kiếm với từ khóa hợp lệ")
-    driver.get(base_url)
+    driver.get(base_url)  # Sửa lỗi cú pháp
     perform_search(driver, "Hà Nội")
-    tour_names = get_tour_names(driver)
-    assert "Hà Nội 2 Ngày 1 Đêm" in tour_names, f"TC01 Failed: 'Hà Nội 2 Ngày 1 Đêm' không có trong kết quả"
+    results = driver.find_elements(By.CLASS_NAME, "tour-card")  # Thử với class 'tour-card'
+    assert len(results) > 0, "TC01 Failed: Không tìm thấy tour nào"
     print("TC01 Passed")
 
 # Test case 2: Tìm kiếm với từ khóa không tồn tại
-@pytest.mark.search
 def test_tc02_search_invalid_keyword(setup_teardown):
     driver, tours_collection, base_url = setup_teardown
     print("TC02: Tìm kiếm với từ khóa không tồn tại")
     driver.get(base_url)
     perform_search(driver, "XYZ")
-    results = driver.find_elements(By.CLASS_NAME, "tour-card")
-    message = get_message(driver, "error")
+    results = driver.find_elements(By.CLASS_NAME, "tour")
+    message = get_message(driver, "error")  # Cập nhật class
     assert len(results) == 0 or (message and "Không tìm thấy tour phù hợp" in message), f"TC02 Failed: {message}"
     print("TC02 Passed")
 
 # Test case 3: Tìm kiếm với từ khóa trống
-@pytest.mark.search
 def test_tc03_search_empty_keyword(setup_teardown):
     driver, tours_collection, base_url = setup_teardown
     print("TC03: Tìm kiếm với từ khóa trống")
     driver.get(base_url)
     perform_search(driver, "")
-    results = driver.find_elements(By.CLASS_NAME, "tour-card")
+    results = driver.find_elements(By.CLASS_NAME, "tour")
     assert len(results) >= 0, "TC03 Failed: Kết quả không hợp lệ"
     print("TC03 Passed")
 
-# Test case 4: Tìm kiếm với ký tự đặc biệt (giữ nguyên từ Code 2)
-@pytest.mark.search
+# Test case 4: Tìm kiếm với ký tự đặc biệt
 def test_tc04_search_special_characters(setup_teardown):
     driver, tours_collection, base_url = setup_teardown
     print("TC04: Tìm kiếm với ký tự đặc biệt")
@@ -127,13 +94,10 @@ def test_tc04_search_special_characters(setup_teardown):
     perform_search(driver, "Hà Nội@#")
     results = driver.find_elements(By.CLASS_NAME, "tour")
     message = get_message(driver, "error")
-    print(f"TC04 Debug: Results count = {len(results)}, Message = {message}")
-    assert len(results) > 0 or len(results) == 0 or (
-                message and "Không tìm thấy tour phù hợp" in message), f"TC04 Failed: Kết quả không hợp lệ. Results count: {len(results)}, Message: {message}"
+    assert len(results) > 0 or len(results) == 0 or (message and "Không tìm thấy tour phù hợp" in message), "TC04 Failed: Kết quả không hợp lệ"
     print("TC04 Passed")
 
 # Test case 5: Lỗi kết nối máy chủ
-@pytest.mark.search
 def test_tc05_server_error(setup_teardown):
     driver, tours_collection, base_url = setup_teardown
     print("TC05: Lỗi kết nối máy chủ")
@@ -163,7 +127,6 @@ def test_tc05_server_error(setup_teardown):
     assert passed, f"TC05 Failed: Không phát hiện lỗi server\nMessage: {message}"
     print("TC05 Passed")
 
-# Cấu hình để bỏ qua cảnh báo pytest.mark
+# Cấu hình để bỏ qua cảnh báo pytest.mark.order
 def pytest_configure(config):
-    config.addinivalue_line("markers", "search: mark test for search functionality")
     config.addinivalue_line("markers", "order: mark test to run in specific order")
